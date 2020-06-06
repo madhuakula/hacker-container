@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  hackercontainer:
+    image: madhuakula/hacker-container:latest
+    command: tail -f /dev/null
+    tty: true
+    restart: always
+    networks:
+      - hacker_container_network
+
+networks:
+  hacker_container_network:
