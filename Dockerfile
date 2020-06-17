@@ -25,6 +25,7 @@ ENV KUBECTL_WHOCAN_VERSION=0.1.1
 ENV ETCDCTL_VERSION=3.4.9
 ENV KUBEBENCH_VERSION=0.3.0
 ENV GITLEAKS_VERSION=4.3.1
+ENV TLDR_VERSION=0.6.1
 
 WORKDIR /tmp
 
@@ -33,7 +34,7 @@ COPY --from=0 /tmp/cfg /root/kube-bench-config
 COPY --from=0 /tmp/gobuster /usr/local/bin/gobuster
 
 RUN apk --no-cache add \
-    curl wget bash htop nmap python3 python2 py3-pip ca-certificates \
+    curl wget bash htop nmap python3 python2 py3-pip ca-certificates bind-tools \
     coreutils iputils net-tools git unzip whois tcpdump openssl proxychains-ng procps zmap scapy \
     netcat-openbsd redis postgresql-client mysql-client masscan \
     && curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
@@ -59,9 +60,12 @@ RUN apk --no-cache add \
     && mv kubectl-who-can /usr/local/bin/kubectl-who-can \
     && curl -fSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
     && tar -xvzf docker-${DOCKER_VERSION}.tgz && mv docker/* /usr/local/bin/ \
+    && curl -fsLO https://github.com/isacikgoz/tldr/releases/download/v${TLDR_VERSION}/tldr_${TLDR_VERSION}_linux_amd64.tar.gz \
+    && tar -xvzf tldr_${TLDR_VERSION}_linux_amd64.tar.gz && mv tldr /usr/local/bin/ \
     && curl -fSLO https://github.com/etcd-io/etcd/releases/download/v${ETCDCTL_VERSION}/etcd-v${ETCDCTL_VERSION}-linux-amd64.tar.gz \
     && tar -xvzf etcd-v${ETCDCTL_VERSION}-linux-amd64.tar.gz && mv etcd-v${ETCDCTL_VERSION}-linux-amd64/etcdctl /usr/local/bin/  \
     && git clone https://github.com/docker/docker-bench-security.git /root/docker-bench-security \
+    && git clone https://github.com/CISOfy/lynis /root/lynis \
     && git clone --depth 1 https://github.com/drwetter/testssl.sh.git /usr/share/testssl \
     && ln -s /usr/share/testssl/testssl.sh /usr/local/bin/testssl \
     && curl -fSL https://github.com/zricethezav/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks-linux-amd64 -o /usr/local/bin/gitleaks \

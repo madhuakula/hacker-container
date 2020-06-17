@@ -49,12 +49,14 @@ List of tools available:
     ✔ kube-bench
     ✔ truffleHog
     ✔ gitleaks
+    ✔ bind-tools
+    ✔ lynis
+    ✔ tldr.sh
     
 Possible list of tools to include:
     ☐ kube-hunter
     ☐ gcloud
     ☐ gsutil
-    ☐ lynis
     ☐ hydra
     ☐ sqlmap
     ☐ whatweb
@@ -67,5 +69,4 @@ Possible list of tools to include:
     ☐ hashcat
     ☐ AutoSploit
     ☐ kubectl-dig
-    ☐ cheat.sh
-    ☐ tldr.sh
+    ☐ falco
