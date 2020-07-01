@@ -33,6 +33,8 @@ COPY --from=0 /tmp/kube-bench /usr/local/bin/kube-bench
 COPY --from=0 /tmp/cfg /root/kube-bench-config
 COPY --from=0 /tmp/gobuster /usr/local/bin/gobuster
 
+COPY pwnchart /root/pwnchart
+
 RUN apk --no-cache add \
     curl wget bash htop nmap python3 python2 py3-pip ca-certificates bind-tools \
     coreutils iputils net-tools git unzip whois tcpdump openssl proxychains-ng procps zmap scapy \

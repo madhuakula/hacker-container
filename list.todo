@@ -52,6 +52,7 @@ List of tools available:
     ✔ bind-tools
     ✔ lynis
     ✔ tldr.sh
+    ✔ pwnchart
     
 Possible list of tools to include:
     ☐ kube-hunter
