@@ -38,7 +38,7 @@ COPY pwnchart /root/pwnchart
 RUN apk --no-cache add \
     curl wget bash htop nmap python3 python2 py3-pip ca-certificates bind-tools \
     coreutils iputils net-tools git unzip whois tcpdump openssl proxychains-ng procps zmap scapy \
-    netcat-openbsd redis postgresql-client mysql-client masscan \
+    netcat-openbsd redis postgresql-client mysql-client masscan nikto perl-net-ssleay \
     && curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
     && mv kubectl /usr/local/bin/kubectl \
     && curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
