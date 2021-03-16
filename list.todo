@@ -53,6 +53,10 @@ List of tools available:
     ✔ lynis
     ✔ tldr.sh
     ✔ pwnchart
+    ✔ kubeaudit
+    ✔ popeye
+    ✔ hadolint
+    ✔ conftest
     
 Possible list of tools to include:
     ☐ kube-hunter
