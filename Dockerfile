@@ -2,7 +2,11 @@ FROM golang:alpine as golang
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
 RUN apk add --no-cache git \
     && go get github.com/aquasecurity/kube-bench \
-    && go get github.com/OJ/gobuster
+    && go get github.com/OJ/gobuster \
+    && git clone https://github.com/cyberark/kubeletctl \
+    && cd kubeletctl && go get github.com/mitchellh/gox \
+    && go mod vendor && go fmt ./... && mkdir -p build \
+    && GOFLAGS=-mod=vendor gox -ldflags "-s -w" --osarch="linux/amd64" -output "build/kubeletctl_{{.OS}}_{{.Arch}}"
 
 FROM alpine:latest
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
@@ -25,12 +29,12 @@ ENV KUBEAUDIT_VERSION=0.12.0
 ENV POPEYE_VERSION=0.9.0
 ENV HADOLINT_VERSION=1.23.0
 ENV CONFTEST_VERSION=0.21.0
-ENV KUBELETCTL_VERSION=1.7
 
 WORKDIR /tmp
 
 COPY --from=golang /go/bin/kube-bench /usr/local/bin/kube-bench
 COPY --from=golang /go/bin/gobuster /usr/local/bin/gobuster
+COPY --from=golang /go/kubeletctl/build/kubeletctl_linux_amd64 /usr/local/bin/kubeletctl
 
 COPY pwnchart /root/pwnchart
 
@@ -48,8 +52,6 @@ RUN apk --no-cache add \
     -o /usr/local/bin/hadolint \
     && curl -fSLO https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz \
     && tar -xvzf conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz && mv conftest /usr/local/bin/conftest \
-    && curl -LO https://github.com/cyberark/kubeletctl/releases/download/v${KUBELETCTL_VERSION}/kubeletctl_linux_amd64 \
-    && mv ./kubeletctl_linux_amd64 /usr/local/bin/kubeletctl \
     && curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/helm \
     && curl -LO https://get.helm.sh/helm-v${HELMV2_VERSION}-linux-amd64.tar.gz \
