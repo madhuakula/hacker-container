@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM golang:alpine as golang
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
 RUN apk add --no-cache git \
     && go get github.com/aquasecurity/kube-bench \
@@ -25,18 +25,19 @@ ENV KUBEAUDIT_VERSION=0.12.0
 ENV POPEYE_VERSION=0.9.0
 ENV HADOLINT_VERSION=1.23.0
 ENV CONFTEST_VERSION=0.21.0
+ENV KUBELETCTL_VERSION=1.7
 
 WORKDIR /tmp
 
-COPY --from=0 /go/bin/kube-bench /usr/local/bin/kube-bench
-COPY --from=0 /go/bin/gobuster /usr/local/bin/gobuster
+COPY --from=golang /go/bin/kube-bench /usr/local/bin/kube-bench
+COPY --from=golang /go/bin/gobuster /usr/local/bin/gobuster
 
 COPY pwnchart /root/pwnchart
 
 RUN apk --no-cache add \
     curl wget bash htop nmap nmap-scripts python3 python2 py3-pip ca-certificates bind-tools \
     coreutils iputils net-tools git unzip whois tcpdump openssl proxychains-ng procps zmap scapy \
-    netcat-openbsd redis postgresql-client mysql-client masscan nikto perl-net-ssleay \
+    netcat-openbsd redis postgresql-client mysql-client masscan nikto ebtables perl-net-ssleay \
     && curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
     && mv kubectl /usr/local/bin/kubectl \
     && curl -fSLO https://github.com/Shopify/kubeaudit/releases/download/v${KUBEAUDIT_VERSION}/kubeaudit_${KUBEAUDIT_VERSION}_linux_amd64.tar.gz \
@@ -47,6 +48,8 @@ RUN apk --no-cache add \
     -o /usr/local/bin/hadolint \
     && curl -fSLO https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz \
     && tar -xvzf conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz && mv conftest /usr/local/bin/conftest \
+    && curl -LO https://github.com/cyberark/kubeletctl/releases/download/v${KUBELETCTL_VERSION}/kubeletctl_linux_amd64 \
+    && mv ./kubeletctl_linux_amd64 /usr/local/bin/kubeletctl \
     && curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
     && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/helm \
     && curl -LO https://get.helm.sh/helm-v${HELMV2_VERSION}-linux-amd64.tar.gz \
@@ -81,8 +84,10 @@ RUN apk --no-cache add \
     && git clone --depth 1 https://github.com/pentestmonkey/unix-privesc-check.git /root/unix-privesc-check \
     && curl -fSL https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh -o /usr/local/bin/linux-exploit-suggester \
     && curl -fSL https://raw.githubusercontent.com/mbahadou/postenum/master/postenum.sh -o /usr/local/bin/postenum \
+    # For now we are just using the k8s manifests for leveraging the kube-hunter, in future we should support the local package
+    && git clone https://github.com/aquasecurity/kube-hunter /root/kube-hunter \
     && chmod a+x /usr/local/bin/linenum /usr/local/bin/linux-exploit-suggester /usr/local/bin/cfssl /usr/local/bin/hadolint /usr/local/bin/conftest \
-    /usr/local/bin/postenum /usr/local/bin/gitleaks /usr/local/bin/kubectl /usr/local/bin/amicontained /usr/local/bin/kubeaudit /usr/local/bin/popeye \
+    /usr/local/bin/postenum /usr/local/bin/gitleaks /usr/local/bin/kubectl /usr/local/bin/amicontained /usr/local/bin/kubeaudit /usr/local/bin/popeye /usr/local/bin/kubeletctl \
     && pip3 install --no-cache-dir awscli truffleHog \
     && rm -rf /tmp/*
 

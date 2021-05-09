@@ -57,9 +57,10 @@ List of tools available:
     ✔ popeye
     ✔ hadolint
     ✔ conftest
+    ✔ kube-hunter
+    ✔ kubeletctl
     
 Possible list of tools to include:
-    ☐ kube-hunter
     ☐ gcloud
     ☐ gsutil
     ☐ hydra
