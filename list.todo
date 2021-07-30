@@ -59,6 +59,7 @@ List of tools available:
     ✔ conftest
     ✔ kube-hunter
     ✔ kubeletctl
+    ✔ mongo
     
 Possible list of tools to include:
     ☐ gcloud
