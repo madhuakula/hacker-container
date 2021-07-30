@@ -42,12 +42,6 @@ kubectl run -it hacker-container --image=madhuakula/hacker-container
 
 [![Black Hat USA 2021 Training](./images/madhuakula-blackhat-usa-2021-kubernetes-security.png)](https://rebrand.ly/bhusa21)
 
-**SANS CloudSecNext Summit 2021**
-
-"Kubernetes Goat - Interactive Kubernetes Security Learning Playground" at upcoming  [SANS CloudSecNext Summit 2021](https://www.sans.org/event/cloudsecnext-summit-2021/summit-agenda) to learn more about Kubernets Goat.
-
-[![SANS CloudSecNext Summit 2021](./images/madhuakula-sans-cloudsecnext-summit-2021.jpeg)](https://www.sans.org/event/cloudsecnext-summit-2021/summit-agenda)
-
 ### Feedback/Suggestions
 
 > Please feel free to [create issue](https://github.com/madhuakula/hacker-container/issues/new) or make a pull request or tweet to me [@madhuakula](https://twitter.com/madhuakula) for improvements and suggestions
