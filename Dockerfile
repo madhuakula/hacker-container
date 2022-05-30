@@ -6,7 +6,7 @@ RUN apk add --no-cache git \
     && git clone https://github.com/cyberark/kubeletctl \
     && cd kubeletctl && go get github.com/mitchellh/gox \
     && go mod vendor && go fmt ./... && mkdir -p build \
-    && GOFLAGS=-mod=vendor gox -ldflags "-s -w" --osarch="linux/amd64" -output "build/kubeletctl_{{.OS}}_{{.Arch}}"
+    && GOFLAGS=-mod=vendor gox -ldflags "-s -w" --osarch="linux/arm64" -output "build/kubeletctl_{{.OS}}_{{.Arch}}"
 
 FROM alpine:latest
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
@@ -44,39 +44,39 @@ RUN apk --no-cache add \
     netcat-openbsd redis postgresql-client mysql-client masscan nikto ebtables perl-net-ssleay \
     && curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
     && mv kubectl /usr/local/bin/kubectl \
-    && curl -fSLO https://github.com/Shopify/kubeaudit/releases/download/v${KUBEAUDIT_VERSION}/kubeaudit_${KUBEAUDIT_VERSION}_linux_amd64.tar.gz \
-    && tar -xvzf kubeaudit_${KUBEAUDIT_VERSION}_linux_amd64.tar.gz && mv kubeaudit /usr/local/bin/kubeaudit \
-    && curl -fSLO https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_x86_64.tar.gz \
-    && tar -xvzf popeye_Linux_x86_64.tar.gz && mv popeye /usr/local/bin/popeye \
-    && curl -fSL https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 \
+    && curl -fSLO https://github.com/Shopify/kubeaudit/releases/download/v${KUBEAUDIT_VERSION}/kubeaudit_${KUBEAUDIT_VERSION}_linux_arm64.tar.gz \
+    && tar -xvzf kubeaudit_${KUBEAUDIT_VERSION}_linux_arm64.tar.gz && mv kubeaudit /usr/local/bin/kubeaudit \
+    && curl -fSLO https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_arm64.tar.gz \
+    && tar -xvzf popeye_Linux_arm64.tar.gz && mv popeye /usr/local/bin/popeye \
+    && curl -fSL https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-arm64 \
     -o /usr/local/bin/hadolint \
-    && curl -fSLO https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz \
-    && tar -xvzf conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz && mv conftest /usr/local/bin/conftest \
-    && curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
-    && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/helm \
-    && curl -LO https://get.helm.sh/helm-v${HELMV2_VERSION}-linux-amd64.tar.gz \
-    && tar -zxvf helm-v${HELMV2_VERSION}-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/helm2 \
-    && curl -LO https://github.com/liggitt/audit2rbac/releases/download/v${AUDIT2RBAC_VERSION}/audit2rbac-linux-amd64.tar.gz \
+    && curl -fSLO https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_arm64.tar.gz \
+    && tar -xvzf conftest_${CONFTEST_VERSION}_Linux_arm64.tar.gz && mv conftest /usr/local/bin/conftest \
+    && curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-arm64.tar.gz \
+    && tar -zxvf helm-v${HELM_VERSION}-linux-arm64.tar.gz && mv linux-arm64/helm /usr/local/bin/helm \
+    && curl -LO https://get.helm.sh/helm-v${HELMV2_VERSION}-linux-arm64.tar.gz \
+    && tar -zxvf helm-v${HELMV2_VERSION}-linux-arm64.tar.gz && mv linux-arm64/helm /usr/local/bin/helm2 \
+    && curl -LO https://github.com/liggitt/audit2rbac/releases/download/v${AUDIT2RBAC_VERSION}/audit2rbac-linux-arm64.tar.gz \
     && curl -fSL https://github.com/genuinetools/amicontained/releases/download/v${AMICONTAINED_VERSION}/amicontained-linux-amd64 \
     -o /usr/local/bin/amicontained \
-    && curl -fSLO https://github.com/controlplaneio/kubesec/releases/download/v${KUBESEC_VERSION}/kubesec_linux_amd64.tar.gz \
-    && tar -xvzf kubesec_linux_amd64.tar.gz && mv kubesec /usr/local/bin/kubesec \
-    && curl -fSL https://github.com/cloudflare/cfssl/releases/download/v${CFSSL_VERSION}/cfssl_${CFSSL_VERSION}_linux_amd64 \
+    && curl -fSLO https://github.com/controlplaneio/kubesec/releases/download/v${KUBESEC_VERSION}/kubesec_linux_arm64.tar.gz \
+    && tar -xvzf kubesec_linux_arm64.tar.gz && mv kubesec /usr/local/bin/kubesec \
+    && curl -fSL https://github.com/cloudflare/cfssl/releases/download/v${CFSSL_VERSION}/cfssl_${CFSSL_VERSION}_linux_arm64 \
     -o /usr/local/bin/cfssl \
-    && curl -fSLO https://github.com/OWASP/Amass/releases/download/v${AMASS_VERSION}/amass_linux_amd64.zip \
-    && unzip amass_linux_amd64.zip && mv amass_linux_amd64/amass /usr/local/bin/amass \
+    && curl -fSLO https://github.com/OWASP/Amass/releases/download/v${AMASS_VERSION}/amass_linux_arm64.zip \
+    && unzip amass_linux_arm64.zip && mv amass_linux_amd64/amass /usr/local/bin/amass \
     && mv amass_linux_amd64/examples/wordlists /usr/share/wordlists \
     && curl -fSL https://github.com/danielmiessler/SecLists/raw/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz \
     -o /usr/share/wordlists/rockyou.txt.tar.gz \
-    && curl -fSLO https://github.com/aquasecurity/kubectl-who-can/releases/download/v${KUBECTL_WHOCAN_VERSION}/kubectl-who-can_linux_x86_64.tar.gz \
-    && tar -xvzf kubectl-who-can_linux_x86_64.tar.gz \
+    && curl -fSLO https://github.com/aquasecurity/kubectl-who-can/releases/download/v${KUBECTL_WHOCAN_VERSION}/kubectl-who-can_linux_arm64.tar.gz \
+    && tar -xvzf kubectl-who-can_linux_arm64.tar.gz \
     && mv kubectl-who-can /usr/local/bin/kubectl-who-can \
-    && curl -fSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
+    && curl -fSLO https://download.docker.com/linux/static/stable/arm64/docker-${DOCKER_VERSION}.tgz \
     && tar -xvzf docker-${DOCKER_VERSION}.tgz && mv docker/* /usr/local/bin/ \
-    && curl -fsLO https://github.com/isacikgoz/tldr/releases/download/v${TLDR_VERSION}/tldr_${TLDR_VERSION}_linux_amd64.tar.gz \
-    && tar -xvzf tldr_${TLDR_VERSION}_linux_amd64.tar.gz && mv tldr /usr/local/bin/ \
-    && curl -fSLO https://github.com/etcd-io/etcd/releases/download/v${ETCDCTL_VERSION}/etcd-v${ETCDCTL_VERSION}-linux-amd64.tar.gz \
-    && tar -xvzf etcd-v${ETCDCTL_VERSION}-linux-amd64.tar.gz && mv etcd-v${ETCDCTL_VERSION}-linux-amd64/etcdctl /usr/local/bin/  \
+    && curl -fsLO https://github.com/isacikgoz/tldr/releases/download/v${TLDR_VERSION}/tldr_${TLDR_VERSION}_linux_arm64.tar.gz \
+    && tar -xvzf tldr_${TLDR_VERSION}_linux_arm64.tar.gz && mv tldr /usr/local/bin/ \
+    && curl -fSLO https://github.com/etcd-io/etcd/releases/download/v${ETCDCTL_VERSION}/etcd-v${ETCDCTL_VERSION}-linux-arm64.tar.gz \
+    && tar -xvzf etcd-v${ETCDCTL_VERSION}-linux-arm64.tar.gz && mv etcd-v${ETCDCTL_VERSION}-linux-arm64/etcdctl /usr/local/bin/  \
     && git clone https://github.com/docker/docker-bench-security.git /root/docker-bench-security \
     && git clone https://github.com/CISOfy/lynis /root/lynis \
     && git clone --depth 1 https://github.com/drwetter/testssl.sh.git /usr/share/testssl \
