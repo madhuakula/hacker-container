@@ -16,7 +16,7 @@ ENV KUBECTL_VERSION=1.18.3
 ENV HELM_VERSION=3.2.2
 ENV HELMV2_VERSION=2.16.7
 ENV AUDIT2RBAC_VERSION=0.8.0
-ENV AMICONTAINED_VERSION=0.4.9
+ENV AMICONTAINED_VERSION=0.4.9.1
 ENV KUBESEC_VERSION=2.4.0
 ENV CFSSL_VERSION=1.4.1
 ENV AMASS_VERSION=3.6.3
@@ -57,7 +57,7 @@ RUN apk --no-cache add \
     && curl -LO https://get.helm.sh/helm-v${HELMV2_VERSION}-linux-arm64.tar.gz \
     && tar -zxvf helm-v${HELMV2_VERSION}-linux-arm64.tar.gz && mv linux-arm64/helm /usr/local/bin/helm2 \
     && curl -LO https://github.com/liggitt/audit2rbac/releases/download/v${AUDIT2RBAC_VERSION}/audit2rbac-linux-arm64.tar.gz \
-    && curl -fSL https://github.com/genuinetools/amicontained/releases/download/v${AMICONTAINED_VERSION}/amicontained-linux-amd64 \
+    && curl -fSL https://github.com/adamhurm/amicontained/releases/download/v${AMICONTAINED_VERSION}/amicontained-linux-arm64 \
     -o /usr/local/bin/amicontained \
     && curl -fSLO https://github.com/controlplaneio/kubesec/releases/download/v${KUBESEC_VERSION}/kubesec_linux_arm64.tar.gz \
     && tar -xvzf kubesec_linux_arm64.tar.gz && mv kubesec /usr/local/bin/kubesec \
