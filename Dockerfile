@@ -1,6 +1,7 @@
 FROM golang:alpine as golang
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
 RUN apk add --no-cache git \
+    && go env -w GO111MODULE=auto \
     && go get github.com/aquasecurity/kube-bench \
     && go get github.com/OJ/gobuster \
     && git clone https://github.com/cyberark/kubeletctl \
@@ -34,7 +35,7 @@ WORKDIR /tmp
 
 COPY --from=golang /go/bin/kube-bench /usr/local/bin/kube-bench
 COPY --from=golang /go/bin/gobuster /usr/local/bin/gobuster
-COPY --from=golang /go/kubeletctl/build/kubeletctl_linux_amd64 /usr/local/bin/kubeletctl
+COPY --from=golang /go/kubeletctl/build/kubeletctl_linux_arm64 /usr/local/bin/kubeletctl
 
 COPY pwnchart /root/pwnchart
 
