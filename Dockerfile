@@ -8,7 +8,7 @@ RUN apk add --no-cache git \
     && go mod vendor && go fmt ./... && mkdir -p build \
     && GOFLAGS=-mod=vendor gox -ldflags "-s -w" --osarch="linux/arm64" -output "build/kubeletctl_{{.OS}}_{{.Arch}}"
 
-FROM alpine:latest
+FROM alpine:3.14
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
 
 ENV DOCKER_VERSION=19.03.9
