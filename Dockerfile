@@ -43,7 +43,7 @@ RUN apk --no-cache add \
     curl wget bash htop nmap nmap-scripts python3 python2 py3-pip ca-certificates bind-tools \
     coreutils iputils net-tools git unzip whois tcpdump openssl proxychains-ng procps zmap scapy \
     netcat-openbsd redis postgresql-client mysql-client masscan nikto ebtables perl-net-ssleay \
-    && curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+    && curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/arm64/kubectl \
     && mv kubectl /usr/local/bin/kubectl \
     && curl -fSLO https://github.com/Shopify/kubeaudit/releases/download/v${KUBEAUDIT_VERSION}/kubeaudit_${KUBEAUDIT_VERSION}_linux_arm64.tar.gz \
     && tar -xvzf kubeaudit_${KUBEAUDIT_VERSION}_linux_arm64.tar.gz && mv kubeaudit /usr/local/bin/kubeaudit \
@@ -65,8 +65,8 @@ RUN apk --no-cache add \
     && curl -fSL https://github.com/cloudflare/cfssl/releases/download/v${CFSSL_VERSION}/cfssl_${CFSSL_VERSION}_linux_arm64 \
     -o /usr/local/bin/cfssl \
     && curl -fSLO https://github.com/OWASP/Amass/releases/download/v${AMASS_VERSION}/amass_linux_arm64.zip \
-    && unzip amass_linux_arm64.zip && mv amass_linux_amd64/amass /usr/local/bin/amass \
-    && mv amass_linux_amd64/examples/wordlists /usr/share/wordlists \
+    && unzip amass_linux_arm64.zip && mv amass_linux_arm64/amass /usr/local/bin/amass \
+    && mv amass_linux_arm64/examples/wordlists /usr/share/wordlists \
     && curl -fSL https://github.com/danielmiessler/SecLists/raw/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz \
     -o /usr/share/wordlists/rockyou.txt.tar.gz \
     && curl -fSLO https://github.com/aquasecurity/kubectl-who-can/releases/download/v${KUBECTL_WHOCAN_VERSION}/kubectl-who-can_linux_arm64.tar.gz \
@@ -82,7 +82,7 @@ RUN apk --no-cache add \
     && git clone https://github.com/CISOfy/lynis /root/lynis \
     && git clone --depth 1 https://github.com/drwetter/testssl.sh.git /usr/share/testssl \
     && ln -s /usr/share/testssl/testssl.sh /usr/local/bin/testssl \
-    && curl -fSL https://github.com/zricethezav/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks-linux-amd64 -o /usr/local/bin/gitleaks \
+    && curl -fSL https://github.com/zricethezav/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks-linux-arm64 -o /usr/local/bin/gitleaks \
     && curl -fSL https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh -o /usr/local/bin/linenum \
     && git clone --depth 1 https://github.com/pentestmonkey/unix-privesc-check.git /root/unix-privesc-check \
     && curl -fSL https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh -o /usr/local/bin/linux-exploit-suggester \
