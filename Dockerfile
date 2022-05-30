@@ -1,11 +1,10 @@
 FROM golang:alpine as golang
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
 RUN apk add --no-cache git \
-    && go env -w GO111MODULE=auto \
-    && go get github.com/aquasecurity/kube-bench \
-    && go get github.com/OJ/gobuster \
+    && go install github.com/aquasecurity/kube-bench@latest \
+    && go install github.com/OJ/gobuster@latest \
     && git clone https://github.com/cyberark/kubeletctl \
-    && cd kubeletctl && go get github.com/mitchellh/gox \
+    && cd kubeletctl && go install github.com/mitchellh/gox@latest \
     && go mod vendor && go fmt ./... && mkdir -p build \
     && GOFLAGS=-mod=vendor gox -ldflags "-s -w" --osarch="linux/arm64" -output "build/kubeletctl_{{.OS}}_{{.Arch}}"
 
