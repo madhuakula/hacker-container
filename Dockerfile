@@ -16,7 +16,7 @@ ENV KUBECTL_VERSION=1.18.3
 ENV HELM_VERSION=3.2.2
 ENV HELMV2_VERSION=2.16.7
 ENV AUDIT2RBAC_VERSION=0.8.0
-ENV AMICONTAINED_VERSION=0.4.9.3
+ENV AMICONTAINED_VERSION=0.4.9.4
 ENV KUBESEC_VERSION=2.11.4
 ENV CFSSL_VERSION=1.6.1.1
 ENV AMASS_VERSION=3.6.3
@@ -96,6 +96,7 @@ RUN apk --no-cache add \
     && echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/main' >> /etc/apk/repositories \
     && echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories \
     && apk update && apk add mongodb yaml-cpp=0.6.2-r2 \
+    && ln -s /lib/ld-musl-aarch64.so.1  /lib/ld-linux-aarch64.so.1 \
     && rm -rf /tmp/*
 
 WORKDIR /root
