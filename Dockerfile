@@ -70,6 +70,7 @@ RUN if [ `uname -m` == "aarch64" ]; then \
         && mv amass_linux_arm64/examples/wordlists /usr/share/wordlists \
         && curl -fSL https://github.com/danielmiessler/SecLists/raw/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz \
         -o /usr/share/wordlists/rockyou.txt.tar.gz \
+        # For now we are just using the k8s manifests for leveraging the kube-hunter, in future we should support the local package
         && curl -fSLO https://github.com/aquasecurity/kubectl-who-can/releases/download/v${KUBECTL_WHOCAN_VERSION}/kubectl-who-can_linux_arm64.tar.gz \
         && tar -xvzf kubectl-who-can_linux_arm64.tar.gz \
         && mv kubectl-who-can /usr/local/bin/kubectl-who-can \
@@ -97,6 +98,7 @@ RUN if [ `uname -m` == "aarch64" ]; then \
         && echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/main' >> /etc/apk/repositories \
         && echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories \
         && apk update && apk add mongodb yaml-cpp=0.6.2-r2 \
+        # use musl linker
         && ln -s /lib/ld-musl-aarch64.so.1  /lib/ld-linux-aarch64.so.1 \
         && rm -rf /tmp/* ; \
     else \
@@ -148,6 +150,7 @@ RUN if [ `uname -m` == "aarch64" ]; then \
         && git clone --depth 1 https://github.com/pentestmonkey/unix-privesc-check.git /root/unix-privesc-check \
         && curl -fSL https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh -o /usr/local/bin/linux-exploit-suggester \
         && curl -fSL https://raw.githubusercontent.com/mbahadou/postenum/master/postenum.sh -o /usr/local/bin/postenum \
+        # For now we are just using the k8s manifests for leveraging the kube-hunter, in future we should support the local package
         && git clone https://github.com/aquasecurity/kube-hunter /root/kube-hunter \
         && chmod a+x /usr/local/bin/linenum /usr/local/bin/linux-exploit-suggester /usr/local/bin/cfssl /usr/local/bin/hadolint /usr/local/bin/conftest \
         /usr/local/bin/postenum /usr/local/bin/gitleaks /usr/local/bin/kubectl /usr/local/bin/amicontained /usr/local/bin/kubeaudit /usr/local/bin/popeye /usr/local/bin/kubeletctl \
