@@ -7,9 +7,9 @@ RUN apk add --no-cache git \
     && cd kubeletctl && go install github.com/mitchellh/gox@latest \
     && go mod vendor && go fmt ./... && mkdir -p build \
     && if [ `uname -m` == "aarch64" ]; then ARCH="linux/arm64"; else ARCH="linux/amd64"; fi \
-    && GOFLAGS=-mod=vendor gox -ldflags "-s -w" --osarch=$ARCH -output "build/kubeletctl_{{.OS}}_{{.Arch}}"
+    && GOFLAGS=-mod=vendor gox -ldflags "-s -w" --osarch=$ARCH -output "build/kubeletctl_local_build"
 
-FROM alpine:3.14 AS arm64
+FROM alpine:3.14
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
 
 ENV DOCKER_VERSION=19.03.9
@@ -35,7 +35,7 @@ WORKDIR /tmp
 
 COPY --from=golang /go/bin/kube-bench /usr/local/bin/kube-bench
 COPY --from=golang /go/bin/gobuster /usr/local/bin/gobuster
-COPY --from=golang /go/kubeletctl/build/kubeletctl_linux_arm64 /usr/local/bin/kubeletctl
+COPY --from=golang /go/kubeletctl/build/kubeletctl_local_build /usr/local/bin/kubeletctl
 
 COPY pwnchart /root/pwnchart
 
