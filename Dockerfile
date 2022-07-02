@@ -13,20 +13,20 @@ FROM alpine:3.14
 LABEL NAME="Hacker Container" MAINTAINER="Madhu Akula"
 
 ENV DOCKER_VERSION=19.03.9
-ENV KUBECTL_VERSION=1.18.3
+ENV KUBECTL_VERSION=1.24.0
 ENV HELM_VERSION=3.2.2
 ENV HELMV2_VERSION=2.16.7
 ENV AUDIT2RBAC_VERSION=0.8.0
-ENV AMICONTAINED_VERSION=0.4.9.4
+ENV AMICONTAINED_VERSION=0.4.9
 ENV KUBESEC_VERSION=2.11.4
-ENV CFSSL_VERSION=1.6.1.1
+ENV CFSSL_VERSION=1.6.1
 ENV AMASS_VERSION=3.6.3
 ENV KUBECTL_WHOCAN_VERSION=0.4.0
 ENV ETCDCTL_VERSION=3.4.9
 ENV KUBEBENCH_VERSION=0.3.0
-ENV GITLEAKS_VERSION=8.8.6
+ENV GITLEAKS_VERSION=8.8.11
 ENV TLDR_VERSION=0.6.1
-ENV KUBEAUDIT_VERSION=0.17.0
+ENV KUBEAUDIT_VERSION=0.18.0
 ENV POPEYE_VERSION=0.9.0
 ENV HADOLINT_VERSION=2.10.0
 ENV CONFTEST_VERSION=0.21.0
@@ -102,7 +102,7 @@ RUN if [ `uname -m` == "aarch64" ]; then \
         && ln -s /lib/ld-musl-aarch64.so.1  /lib/ld-linux-aarch64.so.1 \
         && rm -rf /tmp/* ; \
     else \
-        RUN apk --no-cache add \
+        apk --no-cache add \
         curl wget bash htop nmap nmap-scripts python3 python2 py3-pip ca-certificates bind-tools \
         coreutils iputils net-tools git unzip whois tcpdump openssl proxychains-ng procps zmap scapy \
         netcat-openbsd redis postgresql-client mysql-client masscan nikto ebtables perl-net-ssleay \
@@ -145,7 +145,9 @@ RUN if [ `uname -m` == "aarch64" ]; then \
         && git clone https://github.com/CISOfy/lynis /root/lynis \
         && git clone --depth 1 https://github.com/drwetter/testssl.sh.git /usr/share/testssl \
         && ln -s /usr/share/testssl/testssl.sh /usr/local/bin/testssl \
-        && curl -fSL https://github.com/zricethezav/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks-linux-amd64 -o /usr/local/bin/gitleaks \
+        && curl -fSLO https://github.com/zricethezav/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz \
+        && tar -xzvf gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz \
+        && mv gitleaks /usr/local/bin/gitleaks \
         && curl -fSL https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh -o /usr/local/bin/linenum \
         && git clone --depth 1 https://github.com/pentestmonkey/unix-privesc-check.git /root/unix-privesc-check \
         && curl -fSL https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh -o /usr/local/bin/linux-exploit-suggester \
