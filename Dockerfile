@@ -46,7 +46,7 @@ RUN if [ `uname -m` == "aarch64" ]; then \
         netcat-openbsd redis postgresql-client mysql-client masscan nikto ebtables perl-net-ssleay \
         && curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/arm64/kubectl \
         && mv kubectl /usr/local/bin/kubectl \
-        && curl -fSLO https://github.com/Shopify/kubeaudit/releases/download/${KUBEAUDIT_VERSION}/kubeaudit_${KUBEAUDIT_VERSION}_linux_arm64.tar.gz \
+        && curl -fSLO https://github.com/Shopify/kubeaudit/releases/download/v${KUBEAUDIT_VERSION}/kubeaudit_${KUBEAUDIT_VERSION}_linux_arm64.tar.gz \
         && tar -xvzf kubeaudit_${KUBEAUDIT_VERSION}_linux_arm64.tar.gz && mv kubeaudit /usr/local/bin/kubeaudit \
         && curl -fSLO https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_arm64.tar.gz \
         && tar -xvzf popeye_Linux_arm64.tar.gz && mv popeye /usr/local/bin/popeye \
