@@ -19,7 +19,7 @@ ENV HELMV2_VERSION=2.16.7
 ENV AUDIT2RBAC_VERSION=0.8.0
 ENV AMICONTAINED_VERSION=0.4.9
 ENV KUBESEC_VERSION=2.11.4
-ENV CFSSL_VERSION=1.6.1
+ENV CFSSL_VERSION=1.6.4
 ENV AMASS_VERSION=3.6.3
 ENV KUBECTL_WHOCAN_VERSION=0.4.0
 ENV ETCDCTL_VERSION=3.4.9
@@ -63,7 +63,7 @@ RUN if [ `uname -m` == "aarch64" ]; then \
         -o /usr/local/bin/amicontained \
         && curl -fSLO https://github.com/controlplaneio/kubesec/releases/download/v${KUBESEC_VERSION}/kubesec_linux_arm64.tar.gz \
         && tar -xvzf kubesec_linux_arm64.tar.gz && mv kubesec /usr/local/bin/kubesec \
-        && curl -fSL https://github.com/adamhurm/cfssl/releases/download/v${CFSSL_VERSION}/cfssl_${CFSSL_VERSION}_linux_arm64 \
+        && curl -fSL https://github.com/cloudflare/cfssl/releases/download/v${CFSSL_VERSION}/cfssl_${CFSSL_VERSION}_linux_arm64 \
         -o /usr/local/bin/cfssl \
         && curl -fSLO https://github.com/OWASP/Amass/releases/download/v${AMASS_VERSION}/amass_linux_arm64.zip \
         && unzip amass_linux_arm64.zip && mv amass_linux_arm64/amass /usr/local/bin/amass \
